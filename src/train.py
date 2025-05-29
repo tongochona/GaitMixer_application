@@ -237,6 +237,8 @@ def main(opt):
     loss = 0
     accuracy_avg, sub_accuracies = evaluate(
                 val_loader, model, opt.evaluation_fn, gpu=opt.dataset == "OUMVLP")
+    unify_log.log(
+        {'accuracy/validation/avg': accuracy_avg}, step=0)
     print(f"Accuracy before training, avg accuracy {accuracy_avg:.4f}")
     for epoch in tqdm(range(opt.start_epoch, opt.epochs + 1)):
         # train for one epoch

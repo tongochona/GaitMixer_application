@@ -227,12 +227,6 @@ class YOLOPose(Dataset):
     def __init__(self, csv_path, sequence_length=30, transform=None):
         self.data_list = pd.read_csv(csv_path)
 
-        # Kiểm tra và xóa giá trị NaN
-        nan_count = self.data_list.isna().sum().sum()
-        if nan_count > 0:
-            print(f"⚠️ Found {nan_count} NaN values. Removing...")
-            self.data_list = self.data_list.dropna().reset_index(drop=True)
-
         self.sequence_length = sequence_length
         self.transform = transform
 
