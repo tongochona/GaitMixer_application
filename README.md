@@ -10,9 +10,7 @@ Original project: [GaitMixer by exitudio](https://github.com/exitudio/GaitMixer)
 ---
 
 ## 📹 Demo
-[Video demo](assets/output.mp4)
-
-[Link drive](https://drive.google.com/file/d/1uBd1E5GCx2SZNYgan_uLRwCkLcpXcYz6/view?usp=drive_link)
+<p align="center"><img src="assets/output.gif" width="60%" alt="" /></p>
 
 ---
 
