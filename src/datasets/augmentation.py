@@ -132,7 +132,7 @@ class JointNoise(object):
 
 def normalize_width(data):
     data = data.copy()
-    data[:, :, :2] = data[:, :, :2] / 320
+    data[:, :, :2] = data[:, :, :2] / 1080
     return data
 
 def remove_conf(enable):

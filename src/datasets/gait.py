@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from torch.utils.data import Dataset
 import glob
@@ -239,8 +240,8 @@ class YOLOPose(Dataset):
 
         for idx, row in self.data_list.iterrows():
 
-            #target = (person_id, video_name)
-            target = (row["person_id"], row["image_name"])
+            #target = (person_id, video_index)
+            target = (row["person_id"],int(os.path.splitext(row["image_name"])[0].split("_")[1]))
             frame_num = row["frame"]
 
             if target not in self.data_dict:

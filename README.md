@@ -11,6 +11,7 @@ Original project: [GaitMixer by exitudio](https://github.com/exitudio/GaitMixer)
 
 ## 📹 Demo
 [Video demo](assets/output.mp4)
+[Link drive](https://drive.google.com/file/d/1uBd1E5GCx2SZNYgan_uLRwCkLcpXcYz6/view?usp=drive_link)
 
 ---
 
@@ -33,13 +34,15 @@ Fine-tune the original GaitMixer model using your own dataset:
 
 ```bash
 python train.py YOLO \
-  --train_data_path ../myData/keypoints_conf.csv \
-  --valid_data_path ../myData/keypoints.csv \
+  --train_data_path ../myData/yolo_train.csv \
+  --valid_data_path ../myData/yolo_val.csv \
   --debug false \
   --save_model true \
   --weight_path ../../GaitMixer.pt \
-  --epochs 50 \
-  --name <finetune_model_name>
+  --epochs 30 \
+  --name <finetune_model_name> \
+  --project <name_project> \
+  --learning_rate 6e-4
 ```
 ---
 ### 🧪 Testing
@@ -47,7 +50,7 @@ Use the fine-tuned model to recognize individuals from a test video:
 ```bash
 python test.py YOLO \
   --predict_data_path ../video/video_test.MOV \
-  --ref_data_path ../myData/keypoints.csv \
+  --ref_data_path ../myData/train_val.csv \
   --weight_path <path_your_finetune_model>
 ```
 ---

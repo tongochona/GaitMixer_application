@@ -1,4 +1,4 @@
-
+import os
 from ultralytics import YOLO
 import numpy as np
 import cv2
@@ -126,7 +126,8 @@ def main(opt):
 
     gallery = get_embedding(ref_loader, model, gpu=False)
     input_video_path = opt.predict_data_path
-    output_video_path = "/content/drive/MyDrive/PBL4/gaitmixet.mp4"
+    video_name = os.path.basename(input_video_path)
+    output_video_path = f"/content/drive/MyDrive/PBL4/GaitMixer/{os.path.splitext(video_name)[0]}_out.mp4"
     model_yolo = YOLO("/content/drive/MyDrive/PBL4/yolo11n-pose.pt")
     model_yolo.fuse()
     model_yolo.to("cuda" if torch.cuda.is_available() else "cpu") 
@@ -231,7 +232,7 @@ def main(opt):
             for track_id in list(sequences.keys()):
                 seq = sequences[track_id]
                 if len(seq) >= 60:
-                    kpts_seq = np.stack([det[1] for det in seq[-60:]], axis=0)  # (60, 17, 2)
+                    kpts_seq = np.stack([det[1] for det in seq[-60:]], axis=0)/1080  # (60, 17, 2) normalize
                     if kpts_seq.shape == (60, 17, 2):
                         id = predict_identity(model, kpts_seq, gallery)
                         track_ids[track_id] = id  # Lưu ID dự đoán

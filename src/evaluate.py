@@ -165,45 +165,15 @@ def _evaluate_YOLO(embeddings):
     Đánh giá độ chính xác của YOLOPose dựa trên khoảng cách Cosine.
     Chia gallery và probe theo video (gallery: video đầu, probe: các video còn lại).
     
-    embeddings: dict {(person_id, video_name, first_frame, last_frame): embedding_vector}
+    embeddings: dict {(person_id, video_index, first_frame, last_frame): embedding_vector}
     """
     _distance = F.cosine_similarity  # Dùng hàm torch
 
-    # Nhóm embeddings theo person_id
-    split_ratio = 0.8  
+    gallery = {k: v for (k, v) in embeddings.items()
+               if k[1] <= 9}
 
-    embeddings_by_person = {}
-    for key, emb in embeddings.items():
-        person_id, video_name, first_frame, last_frame = key
-        if person_id not in embeddings_by_person:
-            embeddings_by_person[person_id] = []
-        embeddings_by_person[person_id].append((key, emb))
-
-    gallery = {}
-    probe = {}
-
-    for person_id, items in embeddings_by_person.items():
-        if len(items) < 2:
-            print(f"Warning: Person {person_id} has only one embedding. Skipping...")
-            continue
-
-        # Chia theo tỉ lệ
-        split_index = int(len(items) * split_ratio)
-        gallery_items = items[:split_index]
-        probe_items = items[split_index:]
-
-        # Đảm bảo mỗi người có ít nhất một mẫu trong cả gallery và probe
-        if len(gallery_items) == 0 or len(probe_items) == 0:
-            print(f"Warning: Person {person_id} doesn't have enough samples after split. Skipping...")
-            continue
-
-        for key, emb in gallery_items:
-            gallery[key] = emb
-        for key, emb in probe_items:
-            probe[key] = emb
-
-    if not gallery or not probe:
-        raise ValueError("Không đủ dữ liệu để chia gallery và probe.")
+    probe = {k: v for (k, v) in embeddings.items()
+             if k[1] > 9}
 
     # Chuyển sang tensor
     gallery_ids = list(gallery.keys())

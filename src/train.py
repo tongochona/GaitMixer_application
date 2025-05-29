@@ -96,7 +96,7 @@ def main(opt):
             JointNoise(std=opt.joint_noise_std),
             joint_drop if opt.joint_drop == 'single' else lambda x:x,
             remove_conf(enable=opt.rm_conf),
-            # normalize_width,
+            normalize_width,
             ToTensor()
         ],
     )
@@ -106,7 +106,7 @@ def main(opt):
         [
             SelectSequenceCenter(opt.sequence_length),
             remove_conf(enable=opt.rm_conf),
-            # normalize_width,
+            normalize_width,
             ToTensor()
         ]
     )
